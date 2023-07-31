@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # script to upgrade a cacti instance to latest, if you want a specific version please update the following download links
-cacti_download_url=http://www.cacti.net/downloads/cacti-latest.tar.gz
-spine_download_url=http://www.cacti.net/downloads/spine/cacti-spine-latest.tar.gz
+cacti_download_url=https://files.cacti.net/cacti/linux/cacti-latest.tar.gz
+spine_download_url=https://files.cacti.net/spine/cacti-spine-latest.tar.gz
 
 # create temp workspace
 echo "$(date +%F_%R) [Upgrade] Prepping workspace for restore."
@@ -13,11 +13,11 @@ mkdir /tmp/update/cacti
 
 # download and uncompress cacti
 echo "$(date +%F_%R) [Upgrade] Downloading Cacti from $cacti_download_url"
-wget -qO- $cacti_download_url | tar xzC /tmp/update/cacti
+wget --no-check-certificate $cacti_download_url | tar xzvf cacti-latest.tar.gz -C /tmp/update/cacti
 
 # download and uncompress spine
 echo "$(date +%F_%R) [Upgrade] Downloading Spine from $spine_download_url"
-wget -qO- /tmp/update $spine_download_url | tar xzC /tmp/update/spine/
+wget --no-check-certificate /tmp/update $spine_download_url | tar xzvf cacti-spine-latest.tar.gz -C /tmp/update/spine/
 
 # if not a remote poller, update cacti bits
 if [ ${REMOTE_POLLER} != 1 ]; then
